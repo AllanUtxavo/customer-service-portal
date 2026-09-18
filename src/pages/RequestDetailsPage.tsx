@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 
 import { useServiceRequest } from '../hooks/useServiceRequest';
+import { StatusUpdateForm } from '../components/StatusUpdateForm';
 
 export function RequestDetailsPage() {
   const { requestId } = useParams<{
@@ -117,6 +118,7 @@ export function RequestDetailsPage() {
           <dd>{request.version}</dd>
         </dl>
       </section>
+      <StatusUpdateForm request={request} />
     </main>
   );
 }

@@ -2,7 +2,11 @@ import { http, HttpResponse } from 'msw';
 
 import { serviceRequests } from './data';
 
-import type { CreateServiceRequest } from '../types/request';
+import type {
+  CreateServiceRequest,
+  ServiceRequestStatus,
+  UpdateServiceRequestStatus,
+} from '../types/request';
 
 
 export const handlers = [
@@ -130,4 +134,76 @@ if (sort) {
         status: 201,
     });
     }),
+
+    http.patch(
+    '*/requests/:requestId/status',
+    async ({ params, request }) => {
+        const requestItem = serviceRequests.find(
+        (item) => item.id === params.requestId,
+        );
+
+        if (!requestItem) {
+        return HttpResponse.json(
+            {
+            title: 'Request not found',
+            status: 404,
+            detail: `Service request ${params.requestId} was not found.`,
+            },
+            {
+            status: 404,
+            },
+        );
+        }
+
+        const body =
+        (await request.json()) as UpdateServiceRequestStatus;
+
+        if (body.version !== requestItem.version) {
+        return HttpResponse.json(
+            {
+            title: 'Version conflict',
+            status: 409,
+            detail:
+                'The service request has been modified since it was last read.',
+            },
+            {
+            status: 409,
+            },
+        );
+        }
+
+        const transitions: Record<
+        ServiceRequestStatus,
+        ServiceRequestStatus[]
+        > = {
+        OPEN: ['IN_PROGRESS', 'CLOSED'],
+        IN_PROGRESS: ['RESOLVED', 'OPEN'],
+        RESOLVED: ['CLOSED', 'IN_PROGRESS'],
+        CLOSED: [],
+        };
+
+        const allowed =
+        transitions[requestItem.status];
+
+        if (!allowed.includes(body.status)) {
+        return HttpResponse.json(
+            {
+            title: 'Invalid status transition',
+            status: 422,
+            detail: `Cannot transition from ${requestItem.status} to ${body.status}.`,
+            },
+            {
+            status: 422,
+            },
+        );
+        }
+
+        requestItem.status = body.status;
+        requestItem.version += 1;
+        requestItem.updatedAt =
+            new Date().toISOString();
+
+        return HttpResponse.json(requestItem);
+        },
+        ),
 ];
