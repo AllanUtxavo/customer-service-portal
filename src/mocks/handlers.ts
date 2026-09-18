@@ -2,6 +2,9 @@ import { http, HttpResponse } from 'msw';
 
 import { serviceRequests } from './data';
 
+import type { CreateServiceRequest } from '../types/request';
+
+
 export const handlers = [
   http.get(`*/requests`, ({ request }) => {
     const url = new URL(request.url);
@@ -105,4 +108,26 @@ if (sort) {
 
     return HttpResponse.json(requestItem);
   }),
+
+    http.post('*/requests', async ({ request }) => {
+    const body =
+        (await request.json()) as CreateServiceRequest;
+
+    const now = new Date().toISOString();
+
+    const newRequest = {
+        id: `req-${Date.now()}`,
+        ...body,
+        status: 'OPEN' as const,
+        createdAt: now,
+        updatedAt: now,
+        version: 1,
+    };
+
+    serviceRequests.unshift(newRequest);
+
+    return HttpResponse.json(newRequest, {
+        status: 201,
+    });
+    }),
 ];
