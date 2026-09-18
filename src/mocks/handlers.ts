@@ -6,7 +6,7 @@ const API_URL =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 export const handlers = [
-  http.get(`${API_URL}/requests`, ({ request }) => {
+  http.get(`*/requests`, ({ request }) => {
     const url = new URL(request.url);
 
     const search = url.searchParams.get('search')?.toLowerCase();
@@ -59,7 +59,7 @@ export const handlers = [
     });
   }),
 
-  http.get(`${API_URL}/requests/:requestId`, ({ params }) => {
+  http.get(`*/requests/:requestId`, ({ params }) => {
     const requestItem = serviceRequests.find(
       (item) => item.id === params.requestId,
     );

@@ -8,12 +8,25 @@ import type {
   UpdateServiceRequestStatus,
 } from '../types/request';
 
+// export async function listServiceRequests(
+//   params?: ListServiceRequestsParams,
+// ): Promise<ServiceRequestPage> {
+//   const response = await apiClient.get<ServiceRequestPage>('/requests', {
+//     params,
+//   });
+
+//   return response.data;
+// }
+
 export async function listServiceRequests(
   params?: ListServiceRequestsParams,
 ): Promise<ServiceRequestPage> {
-  const response = await apiClient.get<ServiceRequestPage>('/requests', {
-    params,
-  });
+  const response = await apiClient.get<ServiceRequestPage>(
+    '/requests',
+    {
+      params,
+    },
+  );
 
   return response.data;
 }
