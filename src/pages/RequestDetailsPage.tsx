@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 
 import { useServiceRequest } from '../hooks/useServiceRequest';
 import { StatusUpdateForm } from '../components/StatusUpdateForm';
+import { ApiErrorMessage } from '../components/ApiErrorMessage';
 
 export function RequestDetailsPage() {
   const { requestId } = useParams<{
@@ -28,13 +29,7 @@ export function RequestDetailsPage() {
       <main>
         <h1>Unable to load request</h1>
 
-        <div role="alert">
-          <p>
-            {error instanceof Error
-              ? error.message
-              : 'An unexpected error occurred.'}
-          </p>
-        </div>
+        <ApiErrorMessage error={error} />
 
         <Link to="/requests">
           Back to requests

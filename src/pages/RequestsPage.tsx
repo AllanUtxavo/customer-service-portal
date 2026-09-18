@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { RequestTable } from '../components/RequestTable';
 import { useServiceRequests } from '../hooks/useServiceRequests';
+import { ApiErrorMessage } from '../components/ApiErrorMessage';
 
 import type {
   ServiceRequestPriority,
@@ -122,16 +123,8 @@ export function RequestsPage() {
       )}
 
       {isError && (
-        <div role="alert">
-          <p>Unable to load service requests.</p>
-
-          <p>
-            {error instanceof Error
-              ? error.message
-              : 'Unknown error'}
-          </p>
-        </div>
-      )}
+        <ApiErrorMessage error={error} />
+       )}
 
       {!isLoading &&
         !isError &&

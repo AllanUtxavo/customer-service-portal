@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+import { ApiErrorMessage } from '../components/ApiErrorMessage';
 
 import { useCreateServiceRequest } from '../hooks/useCreateServiceRequest';
 import {
@@ -169,17 +170,9 @@ export function NewRequestPage() {
         </div>
 
         {createMutation.isError && (
-          <div role="alert">
-            <p>
-              Unable to create service request.
-            </p>
-
-            <p>
-              {createMutation.error instanceof Error
-                ? createMutation.error.message
-                : 'An unexpected error occurred.'}
-            </p>
-          </div>
+            <ApiErrorMessage
+                error={createMutation.error}
+            />
         )}
 
         <button

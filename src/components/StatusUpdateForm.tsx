@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { useUpdateRequestStatus } from '../hooks/useUpdateRequestStatus';
 import { getAllowedStatusTransitions } from '../utils/statusTransitions';
+import { ApiErrorMessage } from './ApiErrorMessage';
 
 import type {
   ServiceRequest,
@@ -118,17 +119,9 @@ export function StatusUpdateForm({
         </div>
 
         {mutation.isError && (
-          <div role="alert">
-            <p>
-              Unable to update request status.
-            </p>
-
-            <p>
-              {mutation.error instanceof Error
-                ? mutation.error.message
-                : 'An unexpected error occurred.'}
-            </p>
-          </div>
+            <ApiErrorMessage
+                error={mutation.error}
+            />
         )}
 
         {mutation.isSuccess && (
