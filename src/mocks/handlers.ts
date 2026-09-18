@@ -2,9 +2,6 @@ import { http, HttpResponse } from 'msw';
 
 import { serviceRequests } from './data';
 
-const API_URL =
-  import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-
 export const handlers = [
   http.get(`*/requests`, ({ request }) => {
     const url = new URL(request.url);
@@ -37,6 +34,35 @@ export const handlers = [
         (item) => item.priority === priority,
       );
     }
+
+    const sort = url.searchParams.get('sort');
+
+if (sort) {
+  const descending = sort.startsWith('-');
+  const field = descending ? sort.slice(1) : sort;
+
+  filteredRequests.sort((a, b) => {
+    if (field === 'createdAt') {
+      const first = new Date(a.createdAt).getTime();
+      const second = new Date(b.createdAt).getTime();
+
+      return descending
+        ? second - first
+        : first - second;
+    }
+
+    if (field === 'updatedAt') {
+      const first = new Date(a.updatedAt).getTime();
+      const second = new Date(b.updatedAt).getTime();
+
+      return descending
+        ? second - first
+        : first - second;
+    }
+
+    return 0;
+  });
+}
 
     const total = filteredRequests.length;
 
