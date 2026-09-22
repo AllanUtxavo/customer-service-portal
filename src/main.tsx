@@ -5,7 +5,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-
+import { AuthProvider } from './auth/AuthProvider';
 import App from './App';
 import './index.css';
 
@@ -35,7 +35,9 @@ enableMocking().then(() => {
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <App />
+          <AuthProvider>
+            <App />
+          </AuthProvider>
         </BrowserRouter>
       </QueryClientProvider>
     </StrictMode>,

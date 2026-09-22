@@ -8,6 +8,9 @@ import { NewRequestPage } from '../pages/NewRequestPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
 import { RequestDetailsPage } from '../pages/RequestDetailsPage';
 import { RequestsPage } from '../pages/RequestsPage';
+import { AuthCallbackPage } from '../pages/AuthCallbackPage';
+import { LoginPage } from '../pages/LoginPage';
+import { ProtectedRoute } from '../auth/ProtectedRoute';
 
 export function AppRoutes() {
   return (
@@ -19,22 +22,44 @@ export function AppRoutes() {
 
       <Route
         path="/requests"
-        element={<RequestsPage />}
+        element={
+            <ProtectedRoute>
+                <RequestsPage />
+            </ProtectedRoute>
+        }
       />
 
       <Route
         path="/requests/new"
-        element={<NewRequestPage />}
+        element={
+            <ProtectedRoute>
+                <NewRequestPage />
+            </ProtectedRoute>
+        }
       />
 
       <Route
         path="/requests/:requestId"
-        element={<RequestDetailsPage />}
+        element={
+            <ProtectedRoute>
+                <RequestDetailsPage />
+            </ProtectedRoute>
+        }
       />
 
       <Route
         path="*"
         element={<NotFoundPage />}
+      />
+
+      <Route
+        path="/callback"
+        element={<AuthCallbackPage />}
+      />
+
+      <Route
+        path="/login"
+        element={<LoginPage />}
       />
     </Routes>
   );
