@@ -438,11 +438,23 @@ The project includes automated tests focused on important application behavior r
 
 Current tests cover:
 
-* Allowed service request status transitions
-* Terminal `CLOSED` status behavior
-* Status update form behavior
-* Rendering service requests
-* Search interaction and query propagation
+- Service request list rendering
+- Search interaction and query propagation
+- Allowed service request status transitions
+- Terminal `CLOSED` status behavior
+- Status update form behavior
+- New service request form validation
+- Valid service request submission
+- API version conflict (`409`) handling
+- API validation error (`422`) handling
+- Field-level API validation messages
+- Network/connection error handling
+- Authentication loading state
+- Redirect of unauthenticated users
+- Preservation of the requested route during authentication redirect
+- Rendering of protected content for authenticated users
+
+The current automated test suite contains 16 tests across 6 test files.
 
 The tests use:
 
