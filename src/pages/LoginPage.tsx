@@ -4,20 +4,21 @@ export function LoginPage() {
   const { login } = useAuth();
 
   return (
-    <main>
-      <h1>Customer Service Portal</h1>
+    <main className="login-page">
+      <section className="login-card">
+        <h1>Customer Service Portal</h1>
 
-      <p>
-        Sign in to manage customer service
-        requests.
-      </p>
+        <p>
+          Sign in securely to manage customer service requests.
+        </p>
 
-      <button
-        type="button"
-        onClick={() => void login()}
-      >
-        Sign in
-      </button>
+        <button
+          type="button"
+          onClick={() => void login()}
+        >
+          Sign in
+        </button>
+      </section>
     </main>
   );
 }

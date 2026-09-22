@@ -11,33 +11,39 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <>
-      <header>
-        <nav>
-          <Link to="/requests">Service Request Portal</Link>
-
-          {' | '}
-
-          <Link to="/requests">Requests</Link>
-
-          {' | '}
-
-          <Link to="/requests/new">New Request</Link>
+      <header className="app-header">
+        <nav className="app-nav" aria-label="Main navigation">
+          <Link className="app-brand" to="/requests">
+            Service Request Portal
+          </Link>
 
           {isAuthenticated && (
             <>
-              {' | '}
+              <div className="nav-links">
+                <Link className="nav-link" to="/requests">
+                  Requests
+                </Link>
 
-              <span>
-                {user?.profile.name ??
-                  user?.profile.preferred_username ??
-                  'Authenticated user'}
-              </span>
+                <Link className="nav-link" to="/requests/new">
+                  New Request
+                </Link>
+              </div>
 
-              {' '}
+              <div className="user-area">
+                <span className="user-name">
+                  {user?.profile.name ??
+                    user?.profile.preferred_username ??
+                    'Authenticated user'}
+                </span>
 
-              <button type="button" onClick={() => void logout()}>
-                Sign out
-              </button>
+                <button
+                  className="sign-out-button"
+                  type="button"
+                  onClick={() => void logout()}
+                >
+                  Sign out
+                </button>
+              </div>
             </>
           )}
         </nav>

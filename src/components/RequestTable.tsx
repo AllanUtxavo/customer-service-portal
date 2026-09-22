@@ -6,20 +6,24 @@ interface RequestTableProps {
   requests: ServiceRequest[];
 }
 
+function formatLabel(value: string) {
+  return value.replaceAll('_', ' ');
+}
+
 export function RequestTable({
   requests,
 }: RequestTableProps) {
   return (
-    <div>
+    <div className="table-container">
       <table>
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Requester</th>
-            <th>Category</th>
-            <th>Priority</th>
-            <th>Status</th>
-            <th>Created</th>
+            <th scope="col">Title</th>
+            <th scope="col">Requester</th>
+            <th scope="col">Category</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Status</th>
+            <th scope="col">Created</th>
           </tr>
         </thead>
 
@@ -27,7 +31,10 @@ export function RequestTable({
           {requests.map((request) => (
             <tr key={request.id}>
               <td>
-                <Link to={`/requests/${request.id}`}>
+                <Link
+                  className="request-title"
+                  to={`/requests/${request.id}`}
+                >
                   {request.title}
                 </Link>
               </td>
@@ -36,9 +43,25 @@ export function RequestTable({
 
               <td>{request.category}</td>
 
-              <td>{request.priority}</td>
+              <td>
+                <span
+                  className={`badge priority-${request.priority
+                    .toLowerCase()
+                    .replace('_', '-')}`}
+                >
+                  {formatLabel(request.priority)}
+                </span>
+              </td>
 
-              <td>{request.status}</td>
+              <td>
+                <span
+                  className={`badge status-${request.status
+                    .toLowerCase()
+                    .replace('_', '-')}`}
+                >
+                  {formatLabel(request.status)}
+                </span>
+              </td>
 
               <td>
                 {new Date(

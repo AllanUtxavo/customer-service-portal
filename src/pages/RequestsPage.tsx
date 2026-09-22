@@ -44,7 +44,7 @@ export function RequestsPage() {
 
       <p>Manage customer service requests.</p>
 
-      <section>
+      <section className="filters" aria-label="Request filters">
         <input
           type="search"
           placeholder="Search by title or requester..."
@@ -140,7 +140,7 @@ export function RequestsPage() {
           <>
             <RequestTable requests={data.items} />
 
-            <div>
+            <div className="pagination">
                 <button
                     type="button"
                     onClick={() =>
@@ -153,7 +153,7 @@ export function RequestsPage() {
                     Previous
                 </button>
 
-                <span>
+                <span className="pagination-info">
                     {' '}
                     Page {data.page} of {data.totalPages}{' '}
                 </span>
@@ -178,7 +178,7 @@ export function RequestsPage() {
 
                 <p>Total requests: {data.total}</p>
 
-                <label>
+                <label className="page-size">
                     Requests per page:{' '}
                     <select
                     value={pageSize}
@@ -194,7 +194,6 @@ export function RequestsPage() {
                 </label>
                 </div>
 
-            <p>Total requests: {data.total}</p>
           </>
         )}
     </main>
